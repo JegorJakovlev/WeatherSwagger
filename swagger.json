@@ -1,0 +1,262 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Погоды",
+    "description": "API для работы с погодой",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Локальный сервер"
+    }
+  ],
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "summary": "Регистрация пользователя",
+        "description": "Регистрация нового пользователя",
+        "responses": {
+          "200": {
+            "description": "Успешная регистрация"
+          },
+          "400": {
+            "description": "Ошибка входных данных"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password"
+                  }
+                },
+                "required": ["username", "email", "password"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "summary": "Вход пользователя",
+        "description": "Вход зарегистрированного пользователя",
+        "responses": {
+          "200": {
+            "description": "Успешный вход"
+          },
+          "400": {
+            "description": "Ошибка входных данных"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password"
+                  }
+                },
+                "required": ["email", "password"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/update": {
+      "put": {
+        "summary": "Обновление учетной записи пользователя",
+        "description": "Обновление данных учетной записи пользователя",
+        "responses": {
+          "200": {
+            "description": "Успешное обновление учетной записи пользователя"
+          },
+          "400": {
+            "description": "Ошибка входных данных"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "format": "int64"
+                  },
+                  "username": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password"
+                  }
+                },
+                "required": ["id", "username", "email", "password"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/delete/{email}": {
+      "delete": {
+        "summary": "Удаление учетной записи пользователя",
+        "description": "Удаление учетной записи пользователя по email",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "description": "Email пользователя",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успешное удаление учетной записи пользователя"
+          },
+          "404": {
+            "description": "Учетная запись пользователя не найдена"
+          },
+          "500": {
+            "description": "Ошибка при удалении учетной записи пользователя"
+          }
+        }
+      }
+    },
+    "/api/weather": {
+      "get": {
+        "summary": "Получить данные о погоде",
+        "description": "Получить текущие данные о погоде для указанного города",
+        "responses": {
+          "200": {
+            "description": "Успешный запрос. Возвращаются данные о погоде."
+          }
+        },
+        "parameters": [
+          {
+            "name": "city",
+            "in": "query",
+            "description": "Город для получения данных о погоде",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "post": {
+        "summary": "Добавить данные о погоде",
+        "description": "Добавить новые данные о погоде",
+        "responses": {
+          "200": {
+            "description": "Успешное добавление данных"
+          },
+          "400": {
+            "description": "Ошибка входных данных"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "city": {
+                    "type": "string"
+                  },
+                  "temperature": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "windSpeed": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "date": {
+                    "type": "string",
+                    "format": "date"
+                  }
+                },
+                "required": ["city", "temperature", "windSpeed", "date"]
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Обновить данные о погоде",
+        "description": "Обновить данные о погоде для указанного города и даты",
+        "responses": {
+          "200": {
+            "description": "Успешное обновление данных о погоде"
+          },
+          "400": {
+            "description": "Ошибка входных данных"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "city": {
+                    "type": "string"
+                  },
+                  "temperature": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "windSpeed": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "date": {
+                    "type": "string",
+                    "format": "date"
+                  }
+                },
+                "required": ["city", "temperature", "windSpeed", "date"]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
